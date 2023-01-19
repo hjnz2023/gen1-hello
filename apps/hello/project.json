@@ -9,7 +9,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/hello",
+        "outputPath": "dist/apps/hello/browser",
         "index": "apps/hello/src/index.html",
         "main": "apps/hello/src/main.ts",
         "polyfills": ["zone.js"],
@@ -78,6 +78,57 @@
         "jestConfig": "apps/hello/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/apps/hello/server",
+        "main": "apps/hello/server.ts",
+        "tsConfig": "apps/hello/tsconfig.server.json"
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media"
+        },
+        "development": {
+          "optimization": false,
+          "sourceMap": true,
+          "extractLicenses": false
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "hello:build:development",
+          "serverTarget": "hello:server:development"
+        },
+        "production": {
+          "browserTarget": "hello:build:production",
+          "serverTarget": "hello:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "hello:build:development",
+          "serverTarget": "hello:server:development"
+        },
+        "production": {
+          "browserTarget": "hello:build:production",
+          "serverTarget": "hello:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
     }
   },
   "tags": []
