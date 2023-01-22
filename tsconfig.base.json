@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@gen1-hello/hydration": ["libs/hydration/src/index.ts"],
       "@gen1-hello/network": ["libs/network/src/index.ts"]
     }
   },

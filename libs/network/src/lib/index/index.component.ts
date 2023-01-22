@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { map } from 'rxjs';
-import { OutboundService } from '../outbound.service';
-
+import { Store } from '@ngrx/store';
+import { selectOutboundAddress } from '../outbound/outbound.selectors';
 @Component({
   selector: 'gen1-hello-index',
   templateUrl: './index.component.html',
@@ -9,8 +8,8 @@ import { OutboundService } from '../outbound.service';
 })
 export class IndexComponent {
 
-  constructor(private outbound: OutboundService) {
+  constructor(private store: Store) {
   }
 
-  all$ = this.outbound.getAll().pipe(map(e => e.ip_addr));
+  address$ = this.store.select(selectOutboundAddress);
 }

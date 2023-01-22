@@ -1,5 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { IndexComponent } from './index.component';
 
@@ -10,7 +10,9 @@ describe('IndexComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
+      ],
+      providers:[
+        provideMockStore({ }),
       ],
       declarations: [IndexComponent],
     }).compileComponents();

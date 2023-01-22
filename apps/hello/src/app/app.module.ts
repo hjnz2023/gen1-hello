@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { extModules } from './build-specifics';
 import { HttpClientModule } from '@angular/common/http';
+import * as fromHydration from '@gen1-hello/hydration';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -18,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot(
       {},
       {
-        metaReducers: [],
+        metaReducers: [fromHydration.rehydrateReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,
@@ -27,7 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     ),
     // Instrumentation must be imported after importing StoreModule
     extModules,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([fromHydration.Effects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
