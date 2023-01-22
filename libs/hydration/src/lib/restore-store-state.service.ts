@@ -8,9 +8,10 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
   providedIn: 'root',
 })
 export class RestoreStoreStateService {
-
   ngrxState$ = new Observable((observer) => {
-    const state = isPlatformBrowser(this.platformId) && this.transferState.get(NGRX_STATE, null);
+    const state =
+      isPlatformBrowser(this.platformId) &&
+      this.transferState.get(NGRX_STATE, null);
     if (state) {
       observer.next(state);
       this.transferState.remove(NGRX_STATE);
@@ -19,7 +20,7 @@ export class RestoreStoreStateService {
   });
 
   transfer(getStoreState: () => unknown) {
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformServer(this.platformId)) {
       this.transferState.onSerialize(NGRX_STATE, getStoreState);
     }
   }
