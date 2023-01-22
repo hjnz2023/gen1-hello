@@ -33,7 +33,13 @@
               "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/hello/src/app/build-specifics/index.ts",
+              "with": "apps/hello/src/app/build-specifics/index.prod.ts"
+            }
+          ]
         },
         "development": {
           "buildOptimizer": false,
