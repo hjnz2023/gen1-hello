@@ -7,11 +7,13 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { extModules } from './build-specifics';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(
       {},
