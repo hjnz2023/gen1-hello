@@ -1,3 +1,3 @@
-export * from './lib/hydration.module';
-export * from './lib/effects';
+export * from './lib/rehydration.module';
+export * from './lib/transfer-state.module';
 export * from './lib/reducers';

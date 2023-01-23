@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { extModules } from './build-specifics';
 import { HttpClientModule } from '@angular/common/http';
-import * as fromHydration from '@gen1-hello/hydration';
+import {
+  rehydrateReducer,
+  RehydrationModule
+} from '@gen1-hello/hydration';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { AppComponent } from './app.component';
+import { extModules } from './build-specifics';
+import { NxWelcomeComponent } from './nx-welcome.component';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -19,7 +22,7 @@ import * as fromHydration from '@gen1-hello/hydration';
     StoreModule.forRoot(
       {},
       {
-        metaReducers: [fromHydration.rehydrateReducer],
+        metaReducers: [rehydrateReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,
@@ -28,7 +31,8 @@ import * as fromHydration from '@gen1-hello/hydration';
     ),
     // Instrumentation must be imported after importing StoreModule
     extModules,
-    EffectsModule.forRoot([fromHydration.Effects]),
+    EffectsModule.forRoot([]),
+    RehydrationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

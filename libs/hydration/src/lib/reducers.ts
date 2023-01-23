@@ -13,9 +13,11 @@ function actionIsRehydrate(
 export function rehydrateReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
+  let rehydrated = false;
   return function (state, action) {
-    if (actionIsRehydrate(action) && action.payload) {
-      return action?.payload!;
+    if (!rehydrated && actionIsRehydrate(action) && action.payload) {
+      rehydrated = true;
+      return action.payload;
     }
 
     return reducer(state, action);
