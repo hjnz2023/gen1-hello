@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { extModules } from './build-specifics';
 import { NxWelcomeComponent } from './nx-welcome.component';
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -34,7 +35,7 @@ import { NxWelcomeComponent } from './nx-welcome.component';
     EffectsModule.forRoot([]),
     RehydrationModule,
   ],
-  providers: [],
+  providers: [{provide: APP_BASE_HREF, useValue: '/'}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

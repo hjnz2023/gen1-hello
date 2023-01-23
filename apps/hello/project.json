@@ -39,7 +39,8 @@
               "replace": "apps/hello/src/app/build-specifics/index.ts",
               "with": "apps/hello/src/app/build-specifics/index.prod.ts"
             }
-          ]
+          ],
+          "baseHref": "/assets/"
         },
         "development": {
           "buildOptimizer": false,
