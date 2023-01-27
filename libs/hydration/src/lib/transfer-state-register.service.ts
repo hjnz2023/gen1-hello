@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
 import { NGRX_STATE } from './keys';
 
+const selectRootState = (state: unknown) => state;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +34,7 @@ export class TransferStateRegisterService {
   getCurrentState(): unknown {
     let state: unknown;
     this.store
-      .select((state) => state)
+      .select(selectRootState)
       .pipe(first())
       .subscribe({
         next: (value) => {

@@ -3,7 +3,7 @@ import {
   Actions,
   createEffect,
   ofType,
-  ROOT_EFFECTS_INIT
+  ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
 import { tap } from 'rxjs';
 import { TransferStateRegisterService } from './transfer-state-register.service';
@@ -11,13 +11,14 @@ import { TransferStateRegisterService } from './transfer-state-register.service'
 @Injectable()
 export class TransferStateEffects {
   init$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(ROOT_EFFECTS_INIT),
         tap(() => {
           this.transferStateRegister.register();
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 

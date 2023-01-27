@@ -1,3 +1,4 @@
+import { RootState } from '@gen1-hello/shared';
 import { Action, ActionReducer } from '@ngrx/store';
 import { rehydrate } from './actions';
 
@@ -11,8 +12,8 @@ function actionIsRehydrate(
 }
 
 export function rehydrateReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
+  reducer: ActionReducer<RootState>
+): ActionReducer<RootState> {
   let rehydrated = false;
   return function (state, action) {
     if (!rehydrated && actionIsRehydrate(action) && action.payload) {
