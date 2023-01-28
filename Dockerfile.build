@@ -8,3 +8,4 @@ ENV NPM_CONFIG_PREFIX=/build/node_modules
 ENV NPM_CONFIG_CACHE=/build/.npm
 
 RUN npm ci
+RUN npm config ls -l
