@@ -1,0 +1,10 @@
+FROM node:lts-alpine
+
+WORKDIR /build
+
+COPY package.json package-lock.json ./
+
+ENV NPM_CONFIG_PREFIX=/build/node_modules
+ENV NPM_CONFIG_CACHE=/build/.npm
+
+RUN npm ci
