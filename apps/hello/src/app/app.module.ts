@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
-import { rehydrateReducer, RehydrationModule } from '@gen1-hello/hydration';
+import { RehydrationModule } from '@gen1-hello/hydration';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
@@ -20,7 +20,6 @@ import { APP_BASE_HREF } from '@angular/common';
     StoreModule.forRoot(
       {},
       {
-        metaReducers: [rehydrateReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,

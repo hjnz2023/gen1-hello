@@ -1,5 +1,7 @@
+import { isPlatformServer } from '@angular/common';
+import { Injector, PLATFORM_ID } from '@angular/core';
 import { RootState } from '@gen1-hello/shared';
-import { Action, ActionReducer } from '@ngrx/store';
+import { Action, ActionReducer, MetaReducer } from '@ngrx/store';
 import { rehydrate } from './actions';
 
 function actionIsRehydrate(
@@ -11,16 +13,15 @@ function actionIsRehydrate(
   );
 }
 
-export function rehydrateReducer(
-  reducer: ActionReducer<RootState>
-): ActionReducer<RootState> {
+export function metaReducerFactory(injector: Injector): MetaReducer<RootState> {
+  const skipped = isPlatformServer(injector.get(PLATFORM_ID));
   let rehydrated = false;
-  return function (state, action) {
-    if (!rehydrated && actionIsRehydrate(action) && action.payload) {
-      rehydrated = true;
-      return action.payload;
-    }
+  return (reducer: ActionReducer<RootState>) => (state, action) => {
+    if (skipped || rehydrated || !actionIsRehydrate(action))
+      return reducer(state, action);
 
-    return reducer(state, action);
+    rehydrated = true;
+    console.log('Rehydrated successfully!');
+    return action.payload;
   };
 }
