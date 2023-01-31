@@ -38,6 +38,10 @@
             {
               "replace": "apps/hello/src/app/build-specifics/index.ts",
               "with": "apps/hello/src/app/build-specifics/index.prod.ts"
+            },
+            {
+              "replace": "apps/hello/src/environments/environment.ts",
+              "with": "apps/hello/src/environments/environment.prod.ts"
             }
           ],
           "baseHref": "/assets/"
