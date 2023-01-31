@@ -20,10 +20,10 @@ export class TransferStateRegisterService {
   ) {}
 
   private createRegisterOnTransferState(): () => void {
-    const canRegister = isPlatformServer(this.platformId);
+    const notOnServer = !isPlatformServer(this.platformId);
     let registered = false;
     return () => {
-      if (registered || !canRegister) {
+      if (registered || notOnServer) {
         return;
       }
       this.transferState.onSerialize(NGRX_STATE, () => this.getCurrentState());
