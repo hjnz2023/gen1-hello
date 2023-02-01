@@ -38,9 +38,6 @@ export function app(): express.Express {
     res.send({ message: 'Hello from server!' });
   });
 
-  server.get('/newrelic_agent.js', (req, res) => {
-    res.send('// placeholder');
-  });
   // Serve static files from /browser
   server.get(
     '*.*',
