@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectOutboundAddress } from '../outbound/outbound.selectors';
 @Component({
@@ -7,9 +7,6 @@ import { selectOutboundAddress } from '../outbound/outbound.selectors';
   styleUrls: ['./index.component.scss'],
 })
 export class IndexComponent {
-
-  constructor(private store: Store) {
-  }
-
-  address$ = this.store.select(selectOutboundAddress);
+  private store = inject(Store);
+  readonly address$ = this.store.select(selectOutboundAddress);
 }
