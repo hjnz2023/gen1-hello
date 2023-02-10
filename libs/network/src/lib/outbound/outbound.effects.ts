@@ -1,29 +1,24 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  createEffect,
-  ofType,
-  OnInitEffects
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { EMPTY, map, mergeMap } from 'rxjs';
+
 import { OutboundService } from '../outbound.service';
-import * as OutboundActions from './outbound.actions';
+import { OutboundActions } from './outbound.actions';
 import { selectOutboundAddress } from './outbound.selectors';
 
 @Injectable()
 export class OutboundEffects implements OnInitEffects {
-
-  loadOutbounds$ = createEffect(() => {
+  loadOutbound$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(OutboundActions.loadOutbounds),
+      ofType(OutboundActions.opened),
       mergeMap(() => this.store.select(selectOutboundAddress)),
       mergeMap((addr) =>
-       addr ? EMPTY : this.outboundService
-          .getAll()
-          .pipe(
-            map((o) => OutboundActions.loadedSuccess({ ip_addr: o.ip_addr }))
-          )
+        addr
+          ? EMPTY
+          : this.outboundService
+              .getAll()
+              .pipe(map(({ ip_addr }) => OutboundActions.loaded({ ip_addr })))
       )
     );
   });
@@ -35,6 +30,6 @@ export class OutboundEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects(): Action {
-    return OutboundActions.loadOutbounds();
+    return OutboundActions.opened();
   }
 }

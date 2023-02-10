@@ -1,14 +1,9 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-export const loadOutbounds = createAction(
-  '[Outbound] Load Outbounds'
-);
-
-export const loadedSuccess = createAction(
-  '[Outbound] Loaded Success',
-  props<{ ip_addr: string }>()
-);
-
-
-
-
+export const OutboundActions = createActionGroup({
+  source: 'Outbound',
+  events: {
+    Opened: emptyProps(),
+    Loaded: props<{ ip_addr: string }>(),
+  },
+});

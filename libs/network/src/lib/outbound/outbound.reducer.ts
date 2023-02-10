@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as OutboundActions from './outbound.actions';
+
+import { OutboundActions } from './outbound.actions';
 
 export const outboundFeatureKey = 'outbound';
 
@@ -13,9 +14,8 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-
-  on(OutboundActions.loadOutbounds, (state) => state),
-  on(OutboundActions.loadedSuccess, (state, { ip_addr }) => {
+  on(OutboundActions.opened, (state: State): State => state),
+  on(OutboundActions.loaded, (state, { ip_addr }): State => {
     return {
       ...state,
       ip_addr,
