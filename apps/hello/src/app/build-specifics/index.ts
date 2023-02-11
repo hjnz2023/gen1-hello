@@ -1,9 +1,6 @@
+import type { EnvironmentProviders } from '@angular/core';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-// export const extModules = [
-//   StoreDevtoolsModule.instrument({
-//     maxAge: 25,
-//   }),
-// ];
-
-export const extProviders = [provideStoreDevtools()];
+export function provideDevExt(): EnvironmentProviders[] {
+  return [provideStoreDevtools({ maxAge: 25 })];
+}

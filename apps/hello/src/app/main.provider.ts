@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -7,7 +7,7 @@ import { provideRehydration } from '@gen1-hello/hydration';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideStore } from '@ngrx/store';
 
-import { extProviders } from './build-specifics';
+import { provideDevExt } from './build-specifics';
 import { routes } from './routes';
 
 export const mainProviders = [
@@ -15,7 +15,7 @@ export const mainProviders = [
     BrowserModule.withServerTransition({ appId: 'serverApp' })
   ),
   provideRouter(routes),
-  importProvidersFrom(HttpClientModule),
+  provideHttpClient(),
   { provide: APP_BASE_HREF, useValue: '/' },
   provideStore(
     {},
@@ -28,5 +28,5 @@ export const mainProviders = [
   ),
   provideRouterStore(),
   provideRehydration(),
-  ...extProviders,
+  provideDevExt(),
 ];
