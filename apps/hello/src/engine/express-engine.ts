@@ -1,21 +1,23 @@
-import { CommonEngine } from './engine';
+import { CommonEngine, RenderOptions } from './engine';
 import { getReqResProviders, NgSetupOptions } from './express-engine-setup';
 
-import type * as express from 'express';
-import { createRenderOptions } from './render';
+import { buildUrl, getViewDirectory, TemplateEngineCallback } from './render';
 
-export function ngExpressEngine(
-  setupOptions: Readonly<NgSetupOptions>
-): Parameters<ReturnType<typeof express>['engine']>[1] {
-  const engine = new CommonEngine(setupOptions.bootstrap);
+export function ngExpressEngine<T>(
+  setupOptions: Readonly<NgSetupOptions<T>>
+): TemplateEngineCallback {
+  const { bootstrap, appId, providers = [], document } = setupOptions;
+  const engine = new CommonEngine<T>(bootstrap);
 
   return function (path, options, callback) {
-    const renderOpts = createRenderOptions(
-      path,
-      setupOptions,
-      getReqResProviders(options),
-      options
-    );
+    const renderOpts: RenderOptions = {
+      appId,
+      document,
+      documentFilePath: path,
+      providers: [...providers, ...getReqResProviders(options)],
+      publicPath: getViewDirectory(options),
+      url: buildUrl(options),
+    };
 
     engine
       .render(renderOpts)

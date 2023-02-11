@@ -28,12 +28,12 @@ export interface RenderOptions {
   publicPath?: string;
 }
 
-export class CommonEngine {
+export class CommonEngine<T> {
   private readonly templateCache = new Map<string, string>();
   private readonly inlineCriticalCssProcessor: InlineCriticalCssProcessor;
   private readonly pageExists = new Map<string, boolean>();
 
-  constructor(private readonly bootstrap: Type<unknown>) {
+  constructor(private readonly bootstrap: Type<T>) {
     this.inlineCriticalCssProcessor = new InlineCriticalCssProcessor({
       minify: true,
     });
