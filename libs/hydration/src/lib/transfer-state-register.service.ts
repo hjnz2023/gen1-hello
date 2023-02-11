@@ -1,8 +1,9 @@
-import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
+
 import { NGRX_STATE } from './keys';
 
 const selectRootState = (state: unknown) => state;
@@ -11,41 +12,42 @@ const selectRootState = (state: unknown) => state;
   providedIn: 'root',
 })
 export class TransferStateRegisterService {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly store = inject(Store);
+  private readonly transferState = inject(TransferState);
   readonly register = this.createRegisterOnTransferState();
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private transferState: TransferState,
-    private store: Store
-  ) {}
 
   private createRegisterOnTransferState(): () => void {
-    const notOnServer = !isPlatformServer(this.platformId);
+    const onBrowser = isPlatformBrowser(this.platformId);
     let registered = false;
     return () => {
-      if (registered || notOnServer) {
+      if (registered || onBrowser) {
         return;
       }
-      this.transferState.onSerialize(NGRX_STATE, () => this.getCurrentState());
+      this.transferState.onSerialize(NGRX_STATE, this.getCurrentState());
       registered = true;
     };
   }
 
-  getCurrentState(): unknown {
+  getCurrentState(): () => unknown {
     let state: unknown;
-    this.store
-      .select(selectRootState)
-      .pipe(first())
-      .subscribe({
-        next: (value) => {
-          state = value;
-        },
-        complete: () => {
-          console.log(
-            'The state of NGRX Store has been serialized and transferred.'
-          );
-        },
-      });
-    return state;
+    return () => {
+      if (state) return state;
+      this.store
+        .select(selectRootState)
+        .pipe(first())
+        .subscribe({
+          next: (value) => {
+            state = value;
+          },
+          complete: () => {
+            console.log(
+              'The state of NGRX Store has been serialized and transferred.',
+              state
+            );
+          },
+        });
+      return state;
+    };
   }
 }
