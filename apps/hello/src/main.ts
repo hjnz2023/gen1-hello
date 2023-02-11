@@ -1,15 +1,15 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppModule } from './app/app.module';
+import { enableProdMode } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { mainProviders } from './app/main.provider';
+import { environment } from './environments/environment';
 
-function bootstrap() {
-  platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    .catch((err) => console.error(err));
+if (environment.production) {
+  enableProdMode();
 }
 
-if (document.readyState !== 'loading') {
-  bootstrap();
-} else {
-  document.addEventListener('DOMContentLoaded', bootstrap);
-}
+bootstrapApplication(AppComponent, {
+  providers: [mainProviders],
+});

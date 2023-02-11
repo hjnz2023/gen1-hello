@@ -23,3 +23,8 @@ import { metaReducerFactory } from './reducers';
   ],
 })
 export class RehydrationModule {}
+
+export function provideRehydration() {
+  // TODO: implement
+  return [];
+}

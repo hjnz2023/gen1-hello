@@ -1,3 +1,1 @@
-export * from './lib/network.module';
-
-export * from './lib/lib.routes';
+export * from './lib/network.routes';

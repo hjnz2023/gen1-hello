@@ -1,12 +1,21 @@
 import 'zone.js/dist/zone-node';
 
 import { APP_BASE_HREF } from '@angular/common';
-import { ngExpressEngine } from '@nguniversal/express-engine';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
 import * as express from 'express';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
-import { AppServerModule } from './src/main.server';
+import { AppComponent } from './src/app/app.component';
+import { TransferStateModule } from './src/app/app.server.module';
+import { mainProviders } from './src/app/main.provider';
+import { ngExpressEngine } from './src/engine/express-engine';
+import { environment } from './src/environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -16,11 +25,23 @@ export function app(): express.Express {
     ? 'index.original.html'
     : 'index';
 
+  const document = readFileSync(
+    join(distFolder, 'index.html'),
+    'utf8'
+  ).toString();
+
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule,
+      appId: 'serverApp',
+      bootstrap: AppComponent,
+      document,
+      providers: [
+        ...mainProviders,
+        importProvidersFrom(ServerModule),
+        importProvidersFrom(TransferStateModule),
+      ],
     })
   );
 
@@ -71,4 +92,4 @@ if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
 
-export * from './src/main.server';
+// export * from './src/main.server';
