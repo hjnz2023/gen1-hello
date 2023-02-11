@@ -20,6 +20,7 @@ export function metaReducerFactory(injector: Injector): MetaReducer<RootState> {
   return (reducer: ActionReducer<RootState>) => (state, action) => {
     if (onBrowser && !rehydrated && isRehydrateAction(action)) {
       rehydrated = true;
+      console.log('State rehydrated successfully.');
       return action.payload;
     }
     return reducer(state, action);

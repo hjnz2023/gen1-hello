@@ -8,7 +8,6 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 import { AppComponent } from './src/app/app.component';
-import { TransferStateModule } from './src/app/app.server.module';
 import { mainProviders } from './src/app/main.provider';
 import { ngExpressEngine } from './src/engine/express-engine';
 import { environment } from './src/environments/environment';
@@ -37,11 +36,7 @@ export function app(): express.Express {
       appId: 'serverApp',
       bootstrap: AppComponent,
       document,
-      providers: [
-        ...mainProviders,
-        importProvidersFrom(ServerModule),
-        importProvidersFrom(TransferStateModule),
-      ],
+      providers: [...mainProviders, importProvidersFrom(ServerModule)],
     })
   );
 
@@ -91,5 +86,3 @@ const moduleFilename = (mainModule && mainModule.filename) || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
-
-// export * from './src/main.server';

@@ -5,11 +5,21 @@ import {
   ofType,
   ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
-import { tap } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs';
+import { rehydrate } from './actions';
+import { RestoreStoreStateService } from './restore-store-state.service';
 import { TransferStateRegisterService } from './transfer-state-register.service';
 
 @Injectable()
-export class TransferStateEffects {
+export class HydrationEffects {
+  rehyreate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROOT_EFFECTS_INIT),
+      mergeMap(() => this.restoreStoreState.ngrxState$),
+      map((state) => rehydrate({ payload: state }))
+    );
+  });
+
   init$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -24,6 +34,7 @@ export class TransferStateEffects {
 
   constructor(
     private actions$: Actions,
+    private restoreStoreState: RestoreStoreStateService,
     private transferStateRegister: TransferStateRegisterService
   ) {}
 }
