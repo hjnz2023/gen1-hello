@@ -26,6 +26,7 @@ specifiers:
   '@ngrx/store': ~15.2.1
   '@ngrx/store-devtools': ~15.2.1
   '@nguniversal/builders': ~15.1.0
+  '@nguniversal/common': ~15.1.0
   '@nguniversal/express-engine': ~15.1.0
   '@nrwl/angular': 15.6.3
   '@nrwl/cypress': 15.6.3
@@ -72,6 +73,7 @@ dependencies:
   '@ngrx/entity': 15.2.1_fmi2kkdr57wvai2g5w6e6nlvca
   '@ngrx/router-store': 15.2.1_ol46jumwwtb546uox6wmsnc5ca
   '@ngrx/store': 15.2.1_vnmvp4f72xubbup5sqayiytz2i
+  '@nguniversal/common': 15.1.0_7ja4ey4czlmo7rvvxywvjqjcby
   '@nguniversal/express-engine': 15.1.0_p7hnzzrw5bjgdxhcombp5qugke
   express: 4.18.2
   rxjs: 7.8.0
