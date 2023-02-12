@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OutboundInfo } from './models';
+import { map, Observable } from 'rxjs';
+import { z } from 'zod';
+
+import { IfConfigResult, IfConfigResultType } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OutboundService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getAll() {
-    return this.http.get<OutboundInfo>('https://ifconfig.me/all.json');
+  getAll(): Observable<IfConfigResultType> {
+    return this.http.get('https://ifconfig.me/all.json').pipe(
+      map((res) => {
+        return IfConfigResult.parse(res);
+      })
+    );
   }
 }
